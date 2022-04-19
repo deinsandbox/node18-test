@@ -6,7 +6,7 @@ test("example", () => {
 });
 
 test("example", () => {
-  assert.equal(1, 0, "1 is not equal to 0");
+  assert.notEqual(1, 0, "1 is not equal to 0");
 });
 
 test("example", () => {
@@ -36,8 +36,22 @@ test("fetch poke api", async () => {
   assert.equal(json.name, "ditto");
 });
 
-test("throw error", async () => {
-  const reponse = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
-  const json = await reponse.json();
-  assert.equal(json.name, "ditto");
+test("throw error sync", async () => {
+  assert.throws(() => {
+    throw new Error("Wrong value");
+  }, /^Error: Wrong value$/);
+});
+
+test("throw error async", async () => {
+  const callApi = async () => {
+    try {
+      const reponse = await fetch("https://pokeapi.co/api/v2/pokemoncho/ditto");
+      const json = await reponse.json();
+      return json;
+    } catch {
+      throw new Error("Wrong URL");
+    }
+  };
+
+  assert.rejects(callApi, /^Error: Wrong URL$/);
 });
