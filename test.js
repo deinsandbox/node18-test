@@ -1,6 +1,5 @@
 import test from "node:test";
 import assert from "node:assert";
-import fetch from "node:fetch";
 
 test("example", () => {
   assert.equal(1, 1);
@@ -31,6 +30,14 @@ test("try Array.findLastIndex", () => {
   assert.equal(lastEvenIndex, 3, "last even index is not 3");
 });
 
-test("fetch", () => {
-  const reponse = fetch()
+test("fetch poke api", async () => {
+  const reponse = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
+  const json = await reponse.json();
+  assert.equal(json.name, "ditto");
+});
+
+test("throw error", async () => {
+  const reponse = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
+  const json = await reponse.json();
+  assert.equal(json.name, "ditto");
 });
